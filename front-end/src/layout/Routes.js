@@ -24,9 +24,9 @@ function Routes() {
       <Route path="/dashboard">
         <Dashboard date={today()} />
       </Route>
-      <Route>
+      {/* <Route>
         <NotFound />
-      </Route>
+      </Route> */}
     </Switch>
   );
 }
