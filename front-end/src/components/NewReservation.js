@@ -1,25 +1,38 @@
 import React, { useState } from "react";
+import {useHistory} from "react-router-dom";
+import { createReservation } from "../utils/api";
 
 function NewReservation() {
-  const initialReservationState = {
+  const history = useHistory();
+
+
+  const initialFormState = {
     first_name: "",
     last_name: "",
     mobile_number: "",
     reservation_date: "",
     reservation_time: "",
     people: "",
-  };
-  const [reservation, setReservation] = useState({ initialReservationState });
+    }
+  const [reservation, setReservation] = useState({ ...initialFormState });
 
   const handleChange = ({ target }) => {
-    setReservation({ ...reservation, [target.name]: target.value });
+    setReservation({ [target.name]: target.value })
     console.log(reservation);
   };
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  createReservation(reservation)
+    .then(() => {
+      history.push("/")
+    })
+} 
 
   return (
     <div>
       <h1 className="text-center">Create New Reservation</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group col-md-4">
             <label htmlFor="first_name">First Name:</label>
@@ -63,7 +76,7 @@ function NewReservation() {
           <div className="form-group col-md-4">
             <label htmlFor="reservation_date">Reservation Date:</label>
             <input
-              type="text"
+              type="date"
               className="form-control"
               id="reservation_date"
               name="reservation_date"
@@ -75,7 +88,7 @@ function NewReservation() {
           <div className="form-group col-md-4">
             <label htmlFor="reservation_time">Reservation Time:</label>
             <input
-              type="text"
+              type="time"
               className="form-control"
               id="reservation_time"
               name="reservation_time"
@@ -87,7 +100,7 @@ function NewReservation() {
           <div className="col-md-4">
             <label htmlFor="people">Group Size:</label>
             <input
-              type="text"
+              type="number"
               className="form-control"
               id="people"
               name="people"
@@ -96,6 +109,9 @@ function NewReservation() {
               required={true}
             />
           </div>
+        </div>
+        <div className="text-center">
+          <button className="btn btn-primary" type="submit">Submit</button>
         </div>
       </form>
     </div>
