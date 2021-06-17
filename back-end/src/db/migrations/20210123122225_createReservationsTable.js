@@ -1,12 +1,12 @@
 exports.up = function (knex) {
   return knex.schema.createTable("reservations", (table) => {
     table.increments("reservation_id").primary();
-    table.text("first_name");
-    table.text("last_name");
-    table.text("mobile_number");
-    table.date("reservation_date");
-    table.time("reservation_time");
-    table.integer("people");
+    table.string("first_name").notNull();
+    table.string("last_name").notNull();
+    table.string("mobile_number").notNull();
+    table.date("reservation_date").notNull();
+    table.time("reservation_time").notNull();
+    table.integer("people").notNull();
     table.timestamps(true, true);
   });
 };

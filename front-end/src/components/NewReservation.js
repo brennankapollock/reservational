@@ -4,6 +4,7 @@ import { createReservation } from "../utils/api";
 
 function NewReservation() {
   const history = useHistory();
+  const abortController = new AbortController();
 
 
   const initialFormState = {
@@ -17,16 +18,28 @@ function NewReservation() {
   const [reservation, setReservation] = useState({ ...initialFormState });
 
   const handleChange = ({ target }) => {
-    setReservation({ [target.name]: target.value })
+    setReservation({ ...reservation, [target.name]: target.value })
     console.log(reservation);
   };
 
 const handleSubmit = (event) => {
   event.preventDefault();
-  createReservation(reservation)
-    .then(() => {
-      history.push("/")
-    })
+
+  async function updateData() {
+    try {
+      await createReservation(reservation, abortController.signal)
+      history.push(`/dashboard/${reservation.reservation_date}`);
+    }
+    catch (error) {
+      if(error.name === "AbortError") {
+        console.log("Aborted")
+      } else {
+        throw error;
+      }
+    }
+  }
+  updateData();
+  return () => abortController.abort();
 } 
 
   return (

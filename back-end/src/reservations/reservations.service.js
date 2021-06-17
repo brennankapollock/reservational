@@ -4,12 +4,12 @@ function create(newReservation) {
     return knex("reservations")
         .insert(newReservation)
         .returning("*")
-        .then(reservation => reservation[0])
 }
 
-function list(){
+function list(date){
     return knex("reservations")
         .select("*")
+        .where({reservation_date: date})
         
 }
 

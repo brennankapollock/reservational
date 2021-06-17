@@ -77,6 +77,6 @@ export async function createReservation(reservation, signal) {
     body: JSON.stringify({data: reservation}),
     signal,
   }
-  console.log("post attempt:", url, options);
+  console.log(options.body);
   return await fetchJson(url, options);
 }

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import {previous, next, today} from "../utils/date-time";
+import {useLocation} from "react-router-dom";
 import DisplayReservations from "../components/DisplayReservations";
 
 /**
@@ -9,9 +11,26 @@ import DisplayReservations from "../components/DisplayReservations";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
-function Dashboard({ date }) {
+function Dashboard({ defaultDate }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+
+  let query = new URLSearchParams(useLocation().search);
+
+  const queryDate = query.get("date");
+  
+  let [date, setDate] = useState(queryDate ? queryDate : defaultDate)
+
+  const buttons = (
+    <div className="row p-3 justify-content-around">
+      <button onClick={()=> setDate(previous(date))} name="previous" className="btn btn-outline-secondary btn-lg">Previous Day</button>
+      <button 
+        onClick={()=> setDate(today())} 
+        name="today" 
+        className={defaultDate===date ? "btn btn-success btn-lg" : "btn btn-outline-success btn-lg"}>Today</button>
+      <button onClick={() => setDate(next(date))} name="next" className="btn btn-outline-secondary btn-lg">Next Day</button>
+    </div>
+  )
 
   useEffect(loadDashboard, [date]);
 
@@ -32,6 +51,7 @@ function Dashboard({ date }) {
       </div>
       <ErrorAlert error={reservationsError} />
       <DisplayReservations reservations = {reservations}/>
+      {buttons}
     </main>
   );
 }
