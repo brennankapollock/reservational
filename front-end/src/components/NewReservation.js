@@ -124,6 +124,7 @@ const handleSubmit = (event) => {
           </div>
         </div>
         <div className="text-center">
+          <button className="btn btn-danger" onClick={() => history.goBack()}>Cancel</button>
           <button className="btn btn-primary" type="submit">Submit</button>
         </div>
       </form>
