@@ -18,11 +18,6 @@ function DisplayReservations({reservations}) {
     ))
 
 
-
-
-
-
-
     return (
         <div>
          <table className="table">

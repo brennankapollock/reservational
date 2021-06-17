@@ -13,9 +13,17 @@ function list(date){
         
 }
 
+function read(id) {
+    return knex("reservations")
+        .select("*")
+        .where({reservation_id: Number(id)})
+        .then(reservation => reservation[0])
+}
+
 
 
 module.exports = {
     create,
-    list
+    list,
+    read,
 }

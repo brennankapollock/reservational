@@ -29,6 +29,19 @@ function hasOnlyValidProperties(req, res, next) {
   next();
 }
 
+async function reservationExists(req, res, next) {
+  const {reservation_id} = req.params;
+  const reservation = await service.read(reservation_id);
+  if(!reservation) {
+    next({ status: 404, message: `${reservation_id} could not be found`});
+  }
+  res.locals.reservation = reservation;
+  next();
+}
+
+function read(req, res) {
+  res.json({data: res.locals.reservation})
+}
 
 async function list(req, res, next) {
   const date = req.query.date;
@@ -49,5 +62,6 @@ async function create(req, res) {
 
 module.exports = {
   list,
+  read: [reservationExists, read],
   create: [hasOnlyValidProperties, asyncBoundary(create)],
 };

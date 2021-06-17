@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import {previous, next, today} from "../utils/date-time";
-import {useLocation} from "react-router-dom";
 import DisplayReservations from "../components/DisplayReservations";
 
 /**
@@ -53,7 +52,6 @@ function Dashboard({ defaultDate }) {
       <ErrorAlert error={reservationsError} />
       {buttons}
       <DisplayReservations reservations = {reservations}/>
-      {buttons}
     </main>
   );
 }
