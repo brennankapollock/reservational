@@ -19,6 +19,25 @@ function NewReservation() {
     }
   const [reservation, setReservation] = useState({ ...initialFormState });
 
+  const noTues = <p className="alert alert-danger">We are closed on Tuesdays. Please pick another day.</p>
+
+  const noPast = <p className="alert alert-danger">Cannot pick a past date for your reservation</p>
+  
+  // const noBefore1030 = <p className="alert alert-danger">Cannot make a reservation before 10:30am</p>
+
+  // const noAfter2130 = <p className="alert alert-danger">Cannot make a reservation after 9:30pm.</p>
+
+  const dateObject = new Date(`${reservation.reservation_date} ${reservation.reservation_time}`);
+
+
+  function pastResCheck() {
+    let today = new Date();
+    if(dateObject.getTime() < today.getTime()) {
+      return true;
+    }
+    return false;
+  }
+
   useEffect(() => {
       if(reservation_id) {
           const abortController = new AbortController();
@@ -111,6 +130,8 @@ const handleSubmit = (event) => {
         <div className="form-row">
           <div className="form-group col-md-4">
             <label htmlFor="reservation_date">Reservation Date:</label>
+            {dateObject.getDay() === 2 ? noTues : null}
+            {pastResCheck() && reservation.reservation_date !== "" ? noPast : null}
             <input
               type="date"
               className="form-control"
@@ -119,6 +140,7 @@ const handleSubmit = (event) => {
               onChange={handleChange}
               value={reservation.reservation_date}
               required={true}
+              
             />
           </div>
           <div className="form-group col-md-4">
@@ -131,6 +153,7 @@ const handleSubmit = (event) => {
               onChange={handleChange}
               value={reservation.reservation_time}
               required={true}
+              
             />
           </div>
           <div className="col-md-4">

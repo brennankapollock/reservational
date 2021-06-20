@@ -5,6 +5,7 @@ const service = require("./reservations.service");
 const asyncBoundary = require("../errors/asyncBoundary");
 
 const VALID_PROPERTIES = [
+  "data",
   "first_name",
   "last_name",
   "mobile_number",
@@ -26,18 +27,45 @@ function hasOnlyValidProperties(req, res, next) {
       message: `Invalid field(s): ${invalidFields.join(", ")}`,
     });
   }
-  next();
+  return next();
 }
+
 
 async function reservationExists(req, res, next) {
   const {reservation_id} = req.params;
   const reservation = await service.read(reservation_id);
   if(!reservation) {
-    next({ status: 404, message: `${reservation_id} could not be found`});
+    next({ status: 404, message: `reservation id: ${reservation_id} could not be found`});
   }
   res.locals.reservation = reservation;
   next();
 }
+
+function tuesdayCheck(req, res, next) {
+  const stateDate = req.body.data.reservation_date;
+  let inputDate = new Date(stateDate);
+  if(inputDate.getUTCDay() === 2) {
+    return next({
+      status: 400,
+      message: "We are closed on Tuesdays"
+    })
+  }
+  return next();
+}
+
+function pastCheck(req, res, next) {
+  const stateDate = req.body.data.reservation_date;
+  let inputDate = new Date(stateDate);
+  let today = new Date();
+  if(inputDate.getTime() < today.getTime()) {
+    return next({
+      status: 400,
+      message: "Must book on a future day"
+    })
+  }
+  return next();
+}
+
 
 function read(req, res) {
   res.json({data: res.locals.reservation})
@@ -57,11 +85,11 @@ async function list(req, res, next) {
 
 async function create(req, res) {
   const newReservation = await service.create(req.body.data);
-  res.status(201).json({newReservation});
+  res.status(201).json({data: newReservation});
 }
 
 module.exports = {
   list,
   read: [reservationExists, read],
-  create: [hasOnlyValidProperties, asyncBoundary(create)],
+  create: [hasOnlyValidProperties, tuesdayCheck, pastCheck, asyncBoundary(create)],
 };
