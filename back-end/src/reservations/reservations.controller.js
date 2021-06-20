@@ -66,6 +66,24 @@ function pastCheck(req, res, next) {
   return next();
 }
 
+function timeCheck(req, res, next) {
+  const stateTime = req.body.data.reservation_time;
+  let [hours, minutes, seconds] = stateTime.split(":");
+  if(Number(hours) <= 10 && Number(minutes) < 30) {
+    next({
+      status: 400,
+      message: "We open at 10:30am"
+    })
+  }
+  if(Number(hours) > 21 || Number(hours) >= 21 && Number(minutes) > 30) {
+    next({
+      status: 400,
+      message: "We close at 10:30pm. Cannot make a reservation before 9:30am"
+    })
+  }
+  return next();
+}
+
 
 function read(req, res) {
   res.json({data: res.locals.reservation})
@@ -91,5 +109,5 @@ async function create(req, res) {
 module.exports = {
   list,
   read: [reservationExists, read],
-  create: [hasOnlyValidProperties, tuesdayCheck, pastCheck, asyncBoundary(create)],
+  create: [hasOnlyValidProperties, tuesdayCheck, pastCheck, timeCheck, asyncBoundary(create)],
 };

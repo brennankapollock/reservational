@@ -23,12 +23,31 @@ function NewReservation() {
 
   const noPast = <p className="alert alert-danger">Cannot pick a past date for your reservation</p>
   
-  // const noBefore1030 = <p className="alert alert-danger">Cannot make a reservation before 10:30am</p>
+  const noBefore1030 = <p className="alert alert-danger">Cannot make a reservation before 10:30am</p>
 
-  // const noAfter2130 = <p className="alert alert-danger">Cannot make a reservation after 9:30pm.</p>
+  const noAfter2130 = <p className="alert alert-danger">Cannot make a reservation after 9:30pm.</p>
 
   const dateObject = new Date(`${reservation.reservation_date} ${reservation.reservation_time}`);
 
+  function before1030(){
+    if(dateObject.getHours() < 10){
+      return true
+    };
+    if(dateObject.getHours() <= 10 && dateObject.getMinutes() < 30){
+      return true
+    };
+    return false;
+  }
+
+  function after2130(){
+    if(dateObject.getHours() > 21){
+      return true
+    };
+    if(dateObject.getHours() >= 21 && dateObject.getMinutes() > 30){
+      return true
+    };
+    return false;
+  }
 
   function pastResCheck() {
     let today = new Date();
@@ -145,6 +164,8 @@ const handleSubmit = (event) => {
           </div>
           <div className="form-group col-md-4">
             <label htmlFor="reservation_time">Reservation Time:</label>
+            {before1030() ? noBefore1030 : null}
+            {after2130() ? noAfter2130 : null}
             <input
               type="time"
               className="form-control"
