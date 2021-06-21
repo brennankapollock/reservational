@@ -1,41 +1,30 @@
 import React from "react";
 
 
-
+//change each reservation to be it's own card
 
 function DisplayReservations({reservations}) {
 
-    const rows = reservations.map((reservation, index) => (
-        <tr key={index}>
-            <td>{reservation.reservation_id}</td>
-            <td>{reservation.first_name}</td>
-            <td>{reservation.last_name}</td>
-            <td>{reservation.mobile_number}</td>
-            <td>{reservation.reservation_date}</td>
-            <td>{reservation.reservation_time}</td>
-            <td>{reservation.people}</td>
-        </tr>
-    ))
 
+    const reservationCards = reservations.map((res) => (
+        <div className="card col-md-3">
+            <div className="card-body">
+                <h5 className="card-title text-center">Reservation Info:</h5>
+                <p className="card-text">{res.first_name} {res.last_name}</p>
+                <p className="card-text">Mobile: {res.mobile_number}</p>
+                <p className="card-text">Date: {res.reservation_date}</p>
+                <p className="card-text">Time: {res.reservation_time}</p>
+                <p className="card-text">Party Size: {res.people}</p>
+                <button className="btn btn-primary">Seat</button>
+            
+            </div>
+        
+        </div>
+    ))
 
     return (
         <div>
-         <table className="table">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Number</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Party Size</th>
-                </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-         </table>
-        
-        
+        {reservationCards}
         </div>
     )
 }
