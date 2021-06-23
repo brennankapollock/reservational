@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 
 //change each reservation to be it's own card
@@ -7,7 +8,7 @@ function DisplayReservations({reservations}) {
 
 
     const reservationCards = reservations.map((res) => (
-        <div className="card col-md-3">
+        <div className="card">
             <div className="card-body">
                 <h5 className="card-title text-center">Reservation Info:</h5>
                 <p className="card-text">{res.first_name} {res.last_name}</p>
@@ -15,7 +16,9 @@ function DisplayReservations({reservations}) {
                 <p className="card-text">Date: {res.reservation_date}</p>
                 <p className="card-text">Time: {res.reservation_time}</p>
                 <p className="card-text">Party Size: {res.people}</p>
-                <button className="btn btn-primary">Seat</button>
+                <Link to={`/reservations/${res.reservation_id}/seat`}>
+                    <button className="btn btn-primary">Seat</button>
+                </Link>
             
             </div>
         

@@ -4,6 +4,7 @@ import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import {previous, next, today} from "../utils/date-time";
 import DisplayReservations from "../components/DisplayReservations";
+import DisplayTables from "../components/DisplayTables";
 
 
 /**
@@ -56,7 +57,20 @@ function Dashboard({ defaultDate }) {
       </div>
       <ErrorAlert error={reservationsError} />
       {buttons}
-      <DisplayReservations reservations = {reservations}/>
+        <div className="container">
+          <div className="row">
+          <div className="col-md-6">
+            <DisplayReservations reservations = {reservations}/>
+          </div>
+          <div className="col-md-6">
+            <DisplayTables tables = {tables}/>
+          </div>
+          </div>
+        </div>
+  
+    
+      
+    
     </main>
   );
 }
