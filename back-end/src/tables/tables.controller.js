@@ -1,7 +1,27 @@
 const service = require("./tables.service");
 const asyncBoundary = require("../errors/asyncBoundary");
 const {read: readReservation} = require("../reservations/reservations.service");
+const hasProperties = require("../errors/hasProperties");
 
+
+const VALID_PROPERTIES = ['table_name', 'capacity', 'reservation_id'];
+
+function hasOnlyValidProperties(req, res, next) {
+  const { data = {} } = req.body;
+  const invalidFields = Object.keys(data).filter((field) => {
+    !VALID_PROPERTIES.includes(field);
+  });
+  if (invalidFields.length)
+    return next({
+      status: 400,
+      message: `Invalid field(s): ${invalidFields.join(',')}`,
+    });
+  next();
+}
+
+const hasRequiredProperties = hasProperties("table_name", "capacity");
+
+const hasRequiredUpdateProperties = hasProperties("reservation_id");
 
 
 
@@ -15,6 +35,17 @@ async function tableExists(req, res, next){
     })
   }
   res.locals.table = table;
+  next();
+}
+
+function hasValidTableName(req, res, next) {
+  const { table_name } = req.body.data;
+  if (table_name.length < 2) {
+    return next({
+      status: 400,
+      message: 'table_name invalid.',
+    });
+  }
   next();
 }
 
@@ -61,6 +92,17 @@ function occupiedTable(req, res, next) {
   return next()
 }
 
+function tableOccupied(req, res, next) {
+  const { reservation_id } = res.locals.table;
+  if (!reservation_id) {
+    return next({
+      status: 400,
+      message: 'Table is not occupied.',
+    });
+  }
+  next();
+}
+
 
 
 async function list(req, res) {
@@ -87,14 +129,34 @@ async function create(req, res) {
   res.status(201).json({data: newTable});
 }
 
+async function finish(req, res) {
+  const { table_id } = req.params;
+  const { reservation_id } = res.locals.table;
+  const reservation = await service.finish(table_id, reservation_id);
+
+  res.json({ data: reservation });
+}
+
+
+
 module.exports = {
-    create: [asyncBoundary(create)],
+    create: [
+      hasOnlyValidProperties,
+      hasRequiredProperties,
+      hasValidTableName,
+      asyncBoundary(create)
+    ],
     list: [asyncBoundary(list)],
     update: [
-    asyncBoundary(tableExists), 
-    asyncBoundary(reservationExists), 
-    occupiedTable,
-    validCapacity, 
-    asyncBoundary(update)
+      hasOnlyValidProperties,
+      hasRequiredUpdateProperties,
+      asyncBoundary(tableExists), 
+      asyncBoundary(reservationExists), 
+      occupiedTable,
+      validCapacity, 
+      asyncBoundary(update)
     ],
+    read: [tableExists, asyncBoundary(read)],
+    finish: [asyncBoundary(tableExists), tableOccupied, asyncBoundary(finish)]
+  
 }

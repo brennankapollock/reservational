@@ -3,6 +3,7 @@ import {
   readReservation,
   listTables,
   setReservationToTable,
+  updateStatus,
 } from "../utils/api";
 import { useParams, useHistory } from "react-router-dom";
 
@@ -48,11 +49,16 @@ function AssignSeats() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const abortController = new AbortController();
-        setReservationToTable(formData.table_id, reservation.reservation_id, abortController.signal)
+    
+    if(formData.table_id !== "x") {
+      const abortController = new AbortController();
+      let status = "seated";
+      updateStatus(status, reservation_id, abortController.signal);
+      setReservationToTable(formData.table_id, reservation.reservation_id, abortController.signal)
           .then(() => {
             history.push("/dashboard")
           })
+      }
   }
 
   let free = tables.filter((table) => table.reservation_id === null && table.capacity >= reservation.people);

@@ -3,8 +3,8 @@ const tables = require("../fixtures/tables");
 
 exports.seed = function (knex) {
   return knex
-    .raw("TRUNCATE TABLE tableseating RESTART IDENTITY CASCADE")
+    .raw("TRUNCATE TABLE tables RESTART IDENTITY CASCADE")
     .then(function () {
-      return knex("tableseating").insert(tables);
+      return knex("tables").insert(tables);
     })
 };
