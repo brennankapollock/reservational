@@ -26,23 +26,24 @@ function DisplayTables({tables}) {
     }
 
     const tableCards = tables.map((tab) => (
-        <div className="card" key={tab.table_id}>
+        <div className="card border border-dark mb-2" key={tab.table_id}>
             <div className="card-body">
-                <h5 className="card-title text-center">Table Info:</h5>
-                <h6 data-table-id-status={tab.table_id} className="card-title">
+                <h4 className="card-title text-left lead">Table Info:</h4>
+                <h5 data-table-id-status={tab.table_id} className="card-text text-left">
                     {occupied(tab) ? "Free" : 
-                    <button 
+                    <button
+                    className="btn btn primary" 
                     data-table-id-finish={tab.table_id} 
                     value={tab.reservation_id} 
                     id={tab.table_id} 
                     onClick={handleFinish}>
                     Finish
                     </button>}
-                </h6>
-                <p className="card-text">Table ID: {tab.table_id}</p>
-                <p className="card-text">Name: {tab.table_name}</p>
-                <p className="card-text">Capacity: {tab.capacity}</p>
-                <p className="card-text">Res ID: {tab.reservation_id}</p>
+                </h5>
+                <p className="card-text text-center">Table ID: {tab.table_id}</p>
+                <p className="card-text text-center">Name: {tab.table_name}</p>
+                <p className="card-text text-center">Capacity: {tab.capacity}</p>
+                <p className="card-text text-center">Reservation ID: {tab.reservation_id}</p>
             </div>
         </div>
     ))

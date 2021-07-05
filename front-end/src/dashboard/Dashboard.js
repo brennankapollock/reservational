@@ -67,9 +67,9 @@ function Dashboard({ date }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date: {date} </h4>
+      <div className="text-center">
+        <h1 className="display-3">Dashboard</h1>
+        <h4 className="lead">Reservations for {date} </h4>
       </div>
       <ErrorAlert error={reservationsError} />
       

@@ -110,7 +110,7 @@ const handleSubmit = (event) => {
 
   return (
     <div>
-      <h1 className="text-center">Create New Reservation</h1>
+      <h1 className="text-center display-4">Create New Reservation</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group col-md-4">
@@ -196,8 +196,8 @@ const handleSubmit = (event) => {
           </div>
         </div>
         <div className="text-center">
-          <button className="btn btn-danger" onClick={() => history.goBack()}>Cancel</button>
-          <button className="btn btn-primary" type="submit">Submit</button>
+          <button className="mx-2 btn btn-dark" onClick={() => history.goBack()}>Cancel</button>
+          <button className="mx-2 border border-dark btn btn-light" type="submit">Submit</button>
         </div>
       </form>
     </div>

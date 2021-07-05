@@ -2,13 +2,14 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 
+
 //change each reservation to be it's own card
 
 function DisplayReservations({reservations}) {
 
 
     const reservationCards = reservations.map((res) => (
-        <div className="card">
+        <div className="card" key={res.reservation_id}>
             <div className="card-body">
                 <h5 className="card-title text-center">Reservation Info:</h5>
                 <p className="card-text">{res.first_name} {res.last_name}</p>

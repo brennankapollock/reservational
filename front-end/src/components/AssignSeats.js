@@ -6,16 +6,18 @@ import {
   updateStatus,
 } from "../utils/api";
 import { useParams, useHistory } from "react-router-dom";
+import ErrorAlert from "../layout/ErrorAlert";
 
 function AssignSeats() {
   const params = useParams();
   const history = useHistory();
   const reservation_id = params.reservation_id;
 
-  const [reservation, setReservation] = useState([]);
+  const [reservation, setReservation] = useState({});
   const [tables, setTables] = useState([]);
+  const [error, setError] = useState(null);
 
-  const initialState = { table_id: "x" };
+  const initialState = { table_id: "" };
   const [formData, setFormData] = useState({ ...initialState });
 
   useEffect(() => {
@@ -34,7 +36,7 @@ function AssignSeats() {
         if (error.name === "AbortError") {
           console.log("Aborted");
         } else {
-          throw error;
+          setError(error);
         }
       }
     };
@@ -54,7 +56,7 @@ function AssignSeats() {
       const abortController = new AbortController();
       let status = "seated";
       updateStatus(status, reservation_id, abortController.signal);
-      setReservationToTable(formData.table_id, reservation.reservation_id, abortController.signal)
+      setReservationToTable(parseInt(formData.table_id), reservation.reservation_id, abortController.signal)
           .then(() => {
             history.push("/dashboard")
           })
@@ -65,6 +67,7 @@ function AssignSeats() {
 
   return (
     <main>
+    <ErrorAlert error={error}/>
     <div className="card-header">
               <h4>{reservation.first_name} {reservation.last_name}</h4>
             <div className="card-body">
@@ -88,7 +91,7 @@ function AssignSeats() {
                 >
                   <option value="x">--- Select A Table ---</option>
                   {free.map((table) => (
-                    <option value={table.table_id}>
+                    <option key={table.table_id} value={table.table_id}>
                       {table.table_name} - {table.capacity}
                     </option>
                   ))}
