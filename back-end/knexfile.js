@@ -24,7 +24,7 @@ module.exports = {
   test: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: "postgres://oxwhtlwk:c4T1UcoocHcKwyhbNty60SXWfXDrtNQD@batyr.db.elephantsql.com/oxwhtlwk",
+    connection: "postgres://drdjtoyp:oSfB-oO45iHs8CmldgH6GnfyVPljXoXE@batyr.db.elephantsql.com/drdjtoyp",
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
@@ -36,7 +36,7 @@ module.exports = {
   preview: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: "postgres://oxwhtlwk:c4T1UcoocHcKwyhbNty60SXWfXDrtNQD@batyr.db.elephantsql.com/oxwhtlwk",
+    connection: "",
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
@@ -47,7 +47,7 @@ module.exports = {
   production: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: "postgres://oxwhtlwk:c4T1UcoocHcKwyhbNty60SXWfXDrtNQD@batyr.db.elephantsql.com/oxwhtlwk",
+    connection: "",
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },

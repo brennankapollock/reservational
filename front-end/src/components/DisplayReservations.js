@@ -19,9 +19,11 @@ function DisplayReservations({reservations}) {
                 <Link to={`/reservations/${res.reservation_id}/seat`}>
                     <button className="btn btn-primary">Seat</button>
                 </Link>
-            
+                <Link to={`reservations/${res.reservation_id}/edit`}>
+                    <button className="btn btn-primary">Edit</button>
+                </Link>
+                <button  data-reservation-id-cancel={res.reservation_id}  className="btn btn-primary">Cancel</button>
             </div>
-        
         </div>
     ))
 

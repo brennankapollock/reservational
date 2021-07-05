@@ -105,8 +105,6 @@ export async function createTable(table, signal) {
     signal,
   }
   return await fetchJson(url, options)
-    .then(formatReservationDate)
-    .then(formatReservationTime);
 }
 
 export async function listTables(signal) {
@@ -146,5 +144,17 @@ export async function finishTable(table_id, signal) {
     body: JSON.stringify({data: {table_id: table_id}}),
     signal,
   }
+  return await fetchJson(url, options);
+}
+
+
+export async function editReservation(updatedReservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${updatedReservation.reservation_id}`;
+  const options = {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ data: updatedReservation }),
+    signal,
+  };
   return await fetchJson(url, options);
 }

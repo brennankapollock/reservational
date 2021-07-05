@@ -16,6 +16,7 @@ function NewTable() {
     }
 
     const [table, setTable] = useState({...initialState});
+    const [error, setError] = useState(null);
 
     const handleChange = ({ target }) => {
         setTable({ ...table, [target.name]: target.value })

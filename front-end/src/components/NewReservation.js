@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {useHistory, useParams} from "react-router-dom";
 import { readReservation, createReservation } from "../utils/api";
 
+
 function NewReservation() {
   const history = useHistory();
   const abortController = new AbortController();
@@ -14,8 +15,8 @@ function NewReservation() {
     last_name: "",
     mobile_number: "",
     reservation_date: "",
-    reservation_time: "",
-    people: "",
+    reservation_time: "10:30",
+    people: 0,
     }
   const [reservation, setReservation] = useState({ ...initialFormState });
 
@@ -79,7 +80,11 @@ function NewReservation() {
   }, [reservation_id]);
 
   const handleChange = ({ target }) => {
-    setReservation({ ...reservation, [target.name]: target.value })
+    let newValue = target.value;
+    if(target.name === "people") {
+      newValue = Number(target.value)
+    }
+    setReservation({ ...reservation, [target.name]: newValue })
     console.log(reservation);
   };
 

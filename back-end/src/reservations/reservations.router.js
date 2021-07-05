@@ -21,6 +21,7 @@ router
 router
     .route("/:reservation_id")
     .get(controller.read)
+    .put(controller.update)
 
 
 module.exports = router;

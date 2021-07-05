@@ -137,6 +137,17 @@ async function finish(req, res) {
   res.json({ data: reservation });
 }
 
+function reservationNotSeated(req, res, next) {
+  const { status } = res.locals.reservation;
+  if (status === 'seated') {
+    return next({
+      status: 400,
+      message: 'Reservation is already seated.',
+    });
+  }
+  next();
+}
+
 
 
 module.exports = {
@@ -151,7 +162,8 @@ module.exports = {
       hasOnlyValidProperties,
       hasRequiredUpdateProperties,
       asyncBoundary(tableExists), 
-      asyncBoundary(reservationExists), 
+      asyncBoundary(reservationExists),
+      reservationNotSeated,
       occupiedTable,
       validCapacity, 
       asyncBoundary(update)
