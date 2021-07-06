@@ -49,14 +49,14 @@ function AssignSeats() {
     setFormData({...formData, [target.name]: value});
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     
     if(formData.table_id !== "x") {
       const abortController = new AbortController();
-      let status = "seated";
-      updateStatus(status, reservation_id, abortController.signal);
-      setReservationToTable(parseInt(formData.table_id), reservation.reservation_id, abortController.signal)
+      //let status = "seated";
+      // await updateStatus(status, reservation_id, abortController.signal)
+      await setReservationToTable(parseInt(formData.table_id), reservation.reservation_id, abortController.signal)
           .then(() => {
             history.push("/dashboard")
           })

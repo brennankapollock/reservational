@@ -125,16 +125,16 @@ export async function setReservationToTable(table_id, reservation_id, signal) {
 
 }
 
-export async function updateStatus(status, reservation_id, signal) {
-  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
-  const options = {
-    method: 'PUT',
-    headers,
-    body: JSON.stringify({ data: { status } }),
-    signal,
-  };
-  return await fetchJson(url, options);
-}
+// export async function updateStatus(status, reservation_id, signal) {
+//   const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+//   const options = {
+//     method: 'PUT',
+//     headers,
+//     body: JSON.stringify({ data: { status } }),
+//     signal,
+//   };
+//   return await fetchJson(url, options);
+// }
 
 export async function finishTable(table_id, signal) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
