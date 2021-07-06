@@ -8,62 +8,69 @@ require('dotenv').config();
 const path = require("path");
 
 const {
-  NODE_ENV = "development",
-  DATABASE_URL_DEVELOPMENT,
-  DATABASE_URL_PRODUCTION,
+  DATABASE_URL = "postgresql://postgres@localhost/postgres",
+  DATABASE_URL_DEVELOPMENT = "postgresql://postgres@localhost/postgres",
+  DATABASE_URL_TEST = "postgresql://postgres@localhost/postgres",
+  DATABASE_URL_PREVIEW = "postgresql://postgres@localhost/postgres",
+  DEBUG,
 } = process.env;
-const URL =
-  NODE_ENV === "production"
-    ? DATABASE_URL_PRODUCTION
-    : DATABASE_URL_DEVELOPMENT;
 
 
 module.exports = {
   development: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: URL,
+    connection: DATABASE_URL_DEVELOPMENT,
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
+    debug: !!DEBUG,
     
   },
+
+
   test: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: "postgres://drdjtoyp:oSfB-oO45iHs8CmldgH6GnfyVPljXoXE@batyr.db.elephantsql.com/drdjtoyp",
+    connection: DATABASE_URL_TEST,
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
-    
+    debug: !!DEBUG,
   },
+
+
   preview: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: "postgres://oxwhtlwk:c4T1UcoocHcKwyhbNty60SXWfXDrtNQD@batyr.db.elephantsql.com/oxwhtlwk",
+    connection: DATABASE_URL_PREVIEW,
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
+    debug: !!DEBUG,
   },
+
+  
   production: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: URL
-,
+    connection: DATABASE_URL,
+
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
+    debug: !!DEBUG,
   },
 };
