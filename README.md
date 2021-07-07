@@ -21,6 +21,11 @@
 - Node.js
 - CORS
 
+## Deployment
+
+- [Client](https://reservational.vercel.app/dashboard)
+- [Server](https://reservational-api.vercel.app/)
+
 ### API Paths
 
 | API path                               | Function                                                                                                        |
