@@ -7,7 +7,7 @@ import NewReservation from "../components/NewReservation";
 import NewTable from "../components/NewTable";
 import AssignSeats from "../components/AssignSeats";
 import Search from "../components/Search";
-import EditReservations from "../components/EditReservations"
+import EditReservations from "../components/EditReservations";
 import { today } from "../utils/date-time";
 
 /**
@@ -27,22 +27,22 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/search">
-        <Search/>
+        <Search />
       </Route>
       <Route path="/reservations/new">
-          <NewReservation />
+        <NewReservation />
       </Route>
       <Route path="/dashboard">
         <Dashboard date={today()} />
       </Route>
       <Route path="/tables/new">
-        <NewTable/>
+        <NewTable />
       </Route>
       <Route path="/reservations/:reservation_id/seat">
-        <AssignSeats/>
+        <AssignSeats />
       </Route>
       <Route path="/reservations/:reservation_id/edit">
-        <EditReservations/>
+        <EditReservations />
       </Route>
       <Route>
         <NotFound />

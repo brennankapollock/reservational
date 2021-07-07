@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import useQuery from "../utils/useQuery";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import {previous, next, today} from "../utils/date-time";
+import { previous, next, today } from "../utils/date-time";
 import DisplayReservations from "../components/DisplayReservations";
 import DisplayTables from "../components/DisplayTables";
-
 
 /**
  * Defines the dashboard page.
@@ -22,18 +21,18 @@ function Dashboard({ date }) {
   // let query = new URLSearchParams(useLocation().search);
 
   // const queryDate = query.get("date");
-  
+
   // let [date, setDate] = useState(queryDate ? queryDate : defaultDate)
   const history = useHistory();
   const query = useQuery().get("date");
-  if(query) date = query;
+  if (query) date = query;
 
   // const buttons = (
   //   <div className="row p-3 justify-content-around">
   //     <button onClick={()=> setDate(previous(date))} name="previous" className="btn btn-outline-secondary btn-lg">Previous Day</button>
-  //     <button 
-  //       onClick={()=> setDate(today())} 
-  //       name="today" 
+  //     <button
+  //       onClick={()=> setDate(today())}
+  //       name="today"
   //       className={defaultDate===date ? "btn btn-success btn-lg" : "btn btn-outline-success btn-lg"}>Today</button>
   //     <button onClick={() => setDate(next(date))} name="next" className="btn btn-outline-secondary btn-lg">Next Day</button>
   //   </div>
@@ -49,21 +48,21 @@ function Dashboard({ date }) {
       .catch(setReservationsError);
     listTables(abortController.signal)
       .then(setTables)
-      .catch(setReservationsError)
+      .catch(setReservationsError);
     return () => abortController.abort();
   }
 
   const handlePreviousDate = () => {
-    history.push(`dashboard?date=${previous(date)}`)
-  }
+    history.push(`dashboard?date=${previous(date)}`);
+  };
 
   const handleNextDate = () => {
-    history.push(`dashboard?date=${next(date)}`)
-  }
+    history.push(`dashboard?date=${next(date)}`);
+  };
 
   const handleCurrentDate = () => {
-    history.push(`dashboard?date=${today(date)}`)
-  }
+    history.push(`dashboard?date=${today(date)}`);
+  };
 
   return (
     <main>
@@ -72,26 +71,40 @@ function Dashboard({ date }) {
         <h4 className="lead">Reservations for {date} </h4>
       </div>
       <ErrorAlert error={reservationsError} />
-      
+
       <div className="row p-3 justify-content-around">
-      <button onClick={handlePreviousDate} name="previous" className="btn btn-outline-secondary btn-lg">Previous Day</button>
-      <button onClick={handleCurrentDate} name="today" className="btn btn-outline-secondary btn-lg">Today</button>
-      <button onClick={handleNextDate} name="next" className="btn btn-outline-secondary btn-lg">Next Day</button>
-    </div>
-        <div className="container">
-          <div className="row">
+        <button
+          onClick={handlePreviousDate}
+          name="previous"
+          className="btn btn-outline-secondary btn-lg"
+        >
+          Previous Day
+        </button>
+        <button
+          onClick={handleCurrentDate}
+          name="today"
+          className="btn btn-outline-secondary btn-lg"
+        >
+          Today
+        </button>
+        <button
+          onClick={handleNextDate}
+          name="next"
+          className="btn btn-outline-secondary btn-lg"
+        >
+          Next Day
+        </button>
+      </div>
+      <div className="container">
+        <div className="row">
           <div className="col-md-6">
-            <DisplayReservations reservations = {reservations}/>
+            <DisplayReservations reservations={reservations} />
           </div>
           <div className="col-md-6">
-            <DisplayTables tables = {tables}/>
-          </div>
+            <DisplayTables tables={tables} />
           </div>
         </div>
-  
-    
-      
-    
+      </div>
     </main>
   );
 }

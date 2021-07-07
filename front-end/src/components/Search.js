@@ -48,7 +48,14 @@ function Search() {
           </div>
         </div>
       </form>
-      <DisplayReservations reservations={reservations} />
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="pt-2 mt-3 col-6">
+            <DisplayReservations reservations={reservations} />
+          </div>
+        </div>
+      </div>
+      
     </section>
   );
 }

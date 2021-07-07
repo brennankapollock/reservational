@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from "react";
-import {useHistory, useParams} from "react-router-dom";
-import { readReservation, editReservation } from '../utils/api';
-import formatReservationDate from '../utils/format-reservation-date';
-import formatReservationTime from '../utils/format-reservation-time';
-import ErrorAlert from '../layout/ErrorAlert';
-
+import React, { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { readReservation, editReservation } from "../utils/api";
+import formatReservationDate from "../utils/format-reservation-date";
+import formatReservationTime from "../utils/format-reservation-time";
+import ErrorAlert from "../layout/ErrorAlert";
 
 function EditReservations() {
   const history = useHistory();
@@ -18,12 +17,11 @@ function EditReservations() {
     reservation_date: "",
     reservation_time: "",
     people: "",
-    status:"booked"
+    status: "booked",
   };
 
   const [error, setError] = useState(null);
   const [reservation, setReservation] = useState({ ...initialFormState });
-
 
   useEffect(() => {
     async function loadReservation() {
@@ -42,9 +40,7 @@ function EditReservations() {
     loadReservation();
   }, [reservation_id]);
 
-
-
- function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
     const abortController = new AbortController();
     if (reservation_id) {
@@ -57,10 +53,9 @@ function EditReservations() {
     }
   }
 
-
-function handleChange({ target }) {
+  function handleChange({ target }) {
     let newValue = target.value;
-    if (target.name === 'people') {
+    if (target.name === "people") {
       newValue = Number(target.value);
     }
     setReservation((previousReservation) => ({
@@ -69,11 +64,9 @@ function handleChange({ target }) {
     }));
   }
 
-
-
   return (
     <div>
-    <ErrorAlert error={error} />
+      <ErrorAlert error={error} />
       <h1 className="text-center">Edit Reservation</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
